@@ -1,10 +1,51 @@
 <template>
-  <div id="nav">
+
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view/>
+  <router-view/> -->
+
+  <div class="main-wrapper" ref="main-wrapper">
+      <my-dashboard></my-dashboard>
+      <my-data-table></my-data-table>
+  </div>
+  
 </template>
+
+<script>
+import DataTable from '@/components/DataTable.vue'
+import Dashboard from '@/components/Dashboard.vue'
+import { mapGetters } from 'vuex'
+
+
+export default {
+  name: 'App',
+  components: {
+    'my-data-table': DataTable,
+    'my-dashboard': Dashboard,
+  },
+  data() {
+    return {
+
+
+    }
+  },
+   computed: {
+    ...mapGetters([
+      'showModal',
+      'showFired',
+      'firedEmployees',
+      'firedEmployeesCount',
+      'currentEmployees',
+      'currentEmployeesCount',
+      'allEmployees',
+    ])
+  }
+}
+</script>
+
+
 
 <style>
 #app {
