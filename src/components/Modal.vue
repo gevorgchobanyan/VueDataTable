@@ -2,7 +2,7 @@
 <div class="popup">
   <label for="salary">Salary</label><br>
   <input class="form-control mr-sm-2" type="number" id="salary" name="salary" :placeholder="getEmployeeById(employeeID).salary" v-model="newSalary"><br>
-  <button type="button" class="btn btn-success" @click="updateEmployeeSalary(newSalary)">OK</button>&nbsp;&nbsp;&nbsp;&nbsp;
+  <button type="button" class="btn btn-success" @click="updateEmployeeSalary(newSalary)">Save</button>&nbsp;&nbsp;&nbsp;&nbsp;
   <button type="button" class="btn btn-success" @click="changeShowModal(undefined)">Cancel</button>
 </div>
 </template>

@@ -223,6 +223,9 @@ export default createStore({
     decrementSelectedEmployeeCount (state){
       state.selectedEmployeeCount--
     },
+    updateEmployeeCount (state) {
+      state.selectedEmployeeCount = 0
+    }
     // orderSend (state) {
     //   state.orderState = 'pending'
     // },

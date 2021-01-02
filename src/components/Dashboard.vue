@@ -1,6 +1,7 @@
 <template>
     <nav class="navbar navbar-light bg-light">
         <h3>Employee List</h3> 
+        <employee-form-modal></employee-form-modal>
         <!-- <h3>Employee list {{selectedEmployeeCount}} {{orderState}}</h3>  -->
         <!-- <button type="button" @click="sendOrder">sendOrder</button> -->
         <div>
@@ -25,8 +26,14 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
+import EmployeeFormModal from '@/components/EmployeeFormModal.vue'
+
+
 
 export default {
+  components: {
+    'employee-form-modal': EmployeeFormModal
+  },
 
 data: () => ({
 }),
@@ -57,6 +64,7 @@ data: () => ({
       ...mapMutations([
           'changeShowFired',
           'updateSearchInput',
+          'updateEmployeeCount',
       ]),
       ...mapActions([
         //   'sendOrder',
@@ -67,6 +75,7 @@ data: () => ({
         updateShowFired(){
           this.updateSearchInput('')
           this.changeShowFired()
+          this.updateEmployeeCount()
         }
   }
 
