@@ -5,11 +5,14 @@ export default createStore({
     
     // orderState: '',
 
-    searchInput: '',
     showModal: false,
+    showModal2: false,
+    rowState: false,
+    searchInput: '',
     employeeID: 0,
     showFired: true,
     selectedEmployeeCount: 0,
+    selectedEmployeeIDs: [],
     headers: [
       { text: ' ', value: 'checkbox', filterable: true },
       { text: 'ID', value: 'id', filterable: true },
@@ -18,7 +21,7 @@ export default createStore({
       { text: 'Position ', value: 'positionName', filterable: false },
       { text: 'Date of admission', value: 'hireDate', filterable: false },
       { text: 'Date of dismissal', value: 'fireDate', filterable: false },
-      { text: 'Rate', value: 'salary', filterable: false },
+      { text: 'Salary', value: 'salary', filterable: false },
       { text: 'Rate in %', value: 'fraction' },
       { text: 'Base', value: 'base', filterable: false },
       { text: 'Advance', value: 'advance', filterable: false },
@@ -136,7 +139,12 @@ export default createStore({
     // orderState (state) {
     //   return state.orderState
     // },
-
+    rowState (state){
+      return state.rowState
+    },
+    selectedEmployeeIDs (state){
+      return state.selectedEmployeeIDs
+    },
     selectedEmployeeCount (state){
       return state.selectedEmployeeCount
     },
@@ -170,6 +178,9 @@ export default createStore({
     },
     showModal (state){
       return state.showModal
+    },
+    showModal2 (state){
+      return state.showModal2
     },
     firedEmployees (state) {
         return state.employees.filter(employee => employee.fireDate != null)
@@ -208,7 +219,12 @@ export default createStore({
     changeShowModal (state, employeeID) {
       state.showModal = !state.showModal
       state.employeeID = employeeID
+      console.log(' ShowModal changed' + state.showModal)
       // console.log('changed to ' + state.showModal + '   employee id is ' + state.employeeID)
+    },
+    changeShowModal2 (state) {
+      state.showModal2 = !state.showModal2
+      console.log(' ShowModal2 changed' + state.showModal2)
     },
     updateEmployeeSalary (state, newSalary) {
       state.showModal = !state.showModal
@@ -225,7 +241,35 @@ export default createStore({
     },
     updateEmployeeCount (state) {
       state.selectedEmployeeCount = 0
+    },
+    addNewEmployee (state, newEmployee) {
+      newEmployee.id = state.employees[state.employees.length-1].id + 1
+      state.employees.push(newEmployee)
+    },
+    deleteSelectedEmployees(state){
+      let len = state.selectedEmployeeIDs.length
+      for(let i=0;i<state.selectedEmployeeIDs.length;i++){
+        for (let j = state.employees.length - 1; j >= 0; --j) {
+          if (state.employees[j].id === state.selectedEmployeeIDs[i]) {
+            state.employees.splice(j,1)
+          }
+        }
+      }
+      console.log('delete')
+      state.selectedEmployeeCount -= state.selectedEmployeeCount
+    },
+    addEmployeeID (state, employeeID){
+      state.selectedEmployeeIDs.push(employeeID)
+    },
+    removeEmployeeID (state, employeeID){
+      let index = state.selectedEmployeeIDs.indexOf(employeeID)
+      state.selectedEmployeeIDs.splice(index, 1)
+    },
+    changeRowState (state){
+      state.rowState = !state.rowState
     }
+    
+    
     // orderSend (state) {
     //   state.orderState = 'pending'
     // },

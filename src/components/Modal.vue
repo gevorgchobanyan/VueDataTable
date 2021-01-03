@@ -60,7 +60,7 @@ newSalary: 0,
   height: 180px;
   top: 50%;
   margin-top: -100px;
-  background: rgb(45, 102, 67);
+  background: #28a745;
   z-index: 20;
 }
 /* #popup1 {

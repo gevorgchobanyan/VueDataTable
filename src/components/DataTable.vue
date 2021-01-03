@@ -1,5 +1,7 @@
 <template>
-
+  <template v-if="rowState">
+    {{actualChangeRowState()}}
+  </template>
   <table class="table">
     <tbody>
         <tr>
@@ -81,6 +83,9 @@ data: () => ({ // распаковываем Setters
       'currentEmployees',
       'currentEmployeesCount',
       'allEmployees',
+      'selectedEmployeeIDs',
+      'rowState',
+      'selectedEmployeeCount'
     ])
   },
   methods: { // распаковываем Mutations, Actions
@@ -88,6 +93,9 @@ data: () => ({ // распаковываем Setters
       'changeShowModal',
       'incrementSelectedEmployeeCount',
       'decrementSelectedEmployeeCount',
+      'addEmployeeID',
+      'removeEmployeeID',
+      'changeRowState'
     ]),
     selectRow(employeeID){
       // console.log(employeeID)
@@ -95,11 +103,24 @@ data: () => ({ // распаковываем Setters
       if(tr.firstElementChild.childNodes[0].checked){
         tr.classList.add('available')
         this.incrementSelectedEmployeeCount()
+        this.addEmployeeID(employeeID)
       }
       else{
         tr.classList.remove("available");
         this.decrementSelectedEmployeeCount()
+        this.removeEmployeeID(employeeID)
       }
+    },
+    actualChangeRowState(){
+      let trs = document.querySelectorAll('tr')
+      console.log(trs)
+      for(let i=1;i<trs.length;i++){
+        if(trs[i].className === 'available'){
+          trs[i].classList.remove('available')
+          console.log(trs[i].childNodes[0].childNodes[0].checked = false)
+        }
+      }
+      this.changeRowState()
     }
   }
 

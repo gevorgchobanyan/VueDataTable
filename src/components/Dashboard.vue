@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-light bg-light">
         <h3>Employee List</h3> 
-        <employee-form-modal></employee-form-modal>
+        <employee-form-modal v-if="showModal2"></employee-form-modal>
         <!-- <h3>Employee list {{selectedEmployeeCount}} {{orderState}}</h3>  -->
         <!-- <button type="button" @click="sendOrder">sendOrder</button> -->
         <div>
@@ -13,10 +13,10 @@
                    v-on:keyup="onKeyUp"
                    ><br>
             <div class="custom-control custom-checkbox">
-            <input type="checkbox" class="custom-control-input" id="customCheck1" :checked="showFired" @click="updateShowFired">
-            <label class="custom-control-label" for="customCheck1">Show fired employees</label>&nbsp;
-            <button type="button" class="btn btn-success" >Hire a new Employee</button>&nbsp;
-            <button type="button" class="btn btn-success" :disabled="btnDisable">Fire Employee{{plural}}</button>&nbsp;
+              <input type="checkbox" class="custom-control-input" id="customCheck1" :checked="showFired" @click="updateShowFired">
+              <label class="custom-control-label" for="customCheck1">Show fired employees</label>&nbsp;
+              <button type="button" class="btn btn-success" @click="changeShowModal2">Hire a new Employee</button>&nbsp;
+              <button type="button" class="btn btn-success" @click="fireSelectedEmployees()" :disabled="btnDisable">Fire Employee{{plural}}</button>&nbsp;
             </div>  
         </div>
     </nav>
@@ -46,6 +46,9 @@ data: () => ({
       'firedEmployees',
       'firedEmployeesCount',
       'allEmployees',
+      'showModal2',
+      'showModal',
+      'rowState',
     ]),
     btnDisable(){
       if(this.selectedEmployeeCount === 0){
@@ -65,6 +68,9 @@ data: () => ({
           'changeShowFired',
           'updateSearchInput',
           'updateEmployeeCount',
+          'changeShowModal2',
+          'deleteSelectedEmployees',
+          'changeRowState',
       ]),
       ...mapActions([
         //   'sendOrder',
@@ -76,6 +82,10 @@ data: () => ({
           this.updateSearchInput('')
           this.changeShowFired()
           this.updateEmployeeCount()
+        },
+        fireSelectedEmployees(){
+          this.deleteSelectedEmployees()
+          this.changeRowState()
         }
   }
 
