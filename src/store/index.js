@@ -7,6 +7,7 @@ export default createStore({
 
     showModal: false,
     showModal2: false,
+    overlay: false,
     rowState: false,
     searchInput: '',
     employeeID: 0,
@@ -139,6 +140,9 @@ export default createStore({
     // orderState (state) {
     //   return state.orderState
     // },
+    overlay (state){
+      return state.overlay
+    },
     rowState (state){
       return state.rowState
     },
@@ -267,6 +271,9 @@ export default createStore({
     },
     changeRowState (state){
       state.rowState = !state.rowState
+    },
+    changeOverlay (state){
+      state.overlay = !state.overlay
     }
     
     

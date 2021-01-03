@@ -17,7 +17,7 @@
               <template v-for="(elem, elemKey) in employee">
                 <td v-if="(elemKey === 'salary')"
                     style="cursor:pointer"
-                    @click="changeShowModal(employee['id'])"
+                    @click="openModal(employee['id'])"
                 >
                     {{ elem }}
                 </td>
@@ -40,7 +40,7 @@
                 <template v-for="(elem, elemKey) in employee">
                   <td v-if="(elemKey === 'salary')"
                       style="cursor:pointer"
-                      @click="changeShowModal(employee['id'])"
+                      @click="openModal(employee['id'])"
                   >
                       {{ elem }}
                   </td>
@@ -95,7 +95,8 @@ data: () => ({ // распаковываем Setters
       'decrementSelectedEmployeeCount',
       'addEmployeeID',
       'removeEmployeeID',
-      'changeRowState'
+      'changeRowState',
+      'changeOverlay',
     ]),
     selectRow(employeeID){
       // console.log(employeeID)
@@ -121,6 +122,10 @@ data: () => ({ // распаковываем Setters
         }
       }
       this.changeRowState()
+    },
+    openModal(employeeID){
+      this.changeShowModal(employeeID)
+      this.changeOverlay()
     }
   }
 
@@ -143,10 +148,7 @@ data: () => ({ // распаковываем Setters
   background: rgb(45, 102, 67);
   z-index: 20;
 }
-/* #popup1 {
-  -webkit-box-shadow:  0px 0px 0px 9999px rgba(209, 198, 198, 0.5);
-  box-shadow:  0px 0px 0px 9999px rgba(223, 215, 215, 0.5);
-} */
+
 
 .disable {
   background-color: rgb(211, 70, 70);

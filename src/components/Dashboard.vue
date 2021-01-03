@@ -15,7 +15,7 @@
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" id="customCheck1" :checked="showFired" @click="updateShowFired">
               <label class="custom-control-label" for="customCheck1">Show fired employees</label>&nbsp;
-              <button type="button" class="btn btn-success" @click="changeShowModal2">Hire a new Employee</button>&nbsp;
+              <button type="button" class="btn btn-success" @click="openModal2()">Hire a new Employee</button>&nbsp;
               <button type="button" class="btn btn-success" @click="fireSelectedEmployees()" :disabled="btnDisable">Fire Employee{{plural}}</button>&nbsp;
             </div>  
         </div>
@@ -71,6 +71,7 @@ data: () => ({
           'changeShowModal2',
           'deleteSelectedEmployees',
           'changeRowState',
+          'changeOverlay'
       ]),
       ...mapActions([
         //   'sendOrder',
@@ -86,6 +87,10 @@ data: () => ({
         fireSelectedEmployees(){
           this.deleteSelectedEmployees()
           this.changeRowState()
+        },
+        openModal2(){
+          this.changeShowModal2()
+          this.changeOverlay()
         }
   }
 

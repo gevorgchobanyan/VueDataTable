@@ -10,7 +10,8 @@
       <my-dashboard></my-dashboard>
       <my-data-table></my-data-table>
   </div>
-  
+  <div :class="{active: overlay}" id="overlay"></div>
+
 </template>
 
 <script>
@@ -34,6 +35,8 @@ export default {
    computed: {
     ...mapGetters([
       'showModal',
+      'overlay',
+      'showModal2',
       'showFired',
       'firedEmployees',
       'firedEmployeesCount',
@@ -67,5 +70,22 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+
+#overlay {
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+} 
+#overlay.active {
+  opacity: 1;
+  pointer-events: all;
+
 }
 </style>

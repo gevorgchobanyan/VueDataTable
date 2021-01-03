@@ -1,6 +1,10 @@
 <template>
-  <div class="modal">
-    <h2>Adding a new employee</h2>
+  <div class="modal" id="modal">
+    
+    <div class="modal-header">
+      <h2>Adding a new employee</h2>
+      <button class="close-button" @click="closeModal2()">&times;</button>
+    </div>
 
     <div>
       <div class="progress" style="width: 100%;">
@@ -14,30 +18,7 @@
             {{ done/controls.length*100 }} %
         </div>
       </div>
-      <!-- <form class="form-group" style="width: 100%;" v-on:submit.prevent>
-        <div v-for="(item, index) in employeeInfo" :key="index">
-          <div>
-            <label>{{ capitalize(item.name) }}</label>
-            <span class="fa" 
-                  v-if="controls[index].activated"
-                  :class="controls[index].error ? 'fa-exclamation-circle text-danger' : 
-                                                  'fa-check-circle text-success'"
-                  >
-            </span>
-            <br>
-            <input class="form-control form-control-sm"
-                  type="text"
-                  v-bind:value="item.value"
-                  @input="onInput(index, $event.target.value)"
-            >
-            <br>
-          </div>
-        </div>
-        <input type="submit" value="Add Employee" @click.once="toggleResult()" :disabled="done < controls.length">
-        <input type="submit" value="Cancel">
-      </form>  -->
-
-
+      
       <form>
         <div>
           <div class="col-md-14 mb-3">
@@ -178,7 +159,7 @@
           </div>
         </div>
         <button type="button" class="btn btn-success" @click="SaveResult()" :disabled="done < controls.length">Add a new Employee</button>&nbsp;
-        <button type="button" class="btn btn-success" @click="changeShowModal2()">Cancel</button>&nbsp;
+        <button type="button" class="btn btn-success" @click="closeModal2()">Cancel</button>&nbsp;
       </form>
 
     </div>
@@ -283,10 +264,16 @@ beforeMount(){ //HOOK
     ...mapMutations([
       'changeShowModal2',
       'addNewEmployee',
+      'changeOverlay',
     ]),
     SaveResult(){
       this.addNewEmployee(this.newEmployee)
       this.changeShowModal2()
+      this.changeOverlay()
+    },
+    closeModal2(){
+      this.changeShowModal2()
+      this.changeOverlay()
     },
     onInput(index, value){
       let data = this.employeeInfo[index]
@@ -309,18 +296,23 @@ beforeMount(){ //HOOK
   padding: 10px;
   width: 480px;
   left: 50%;
+  border-radius: 10px;
+  border: 1px solid black;
   margin-left: -250px;
   height: 300px;
   top: 50%;
   margin-top: -180px;
-  background: #cbd4cb;
+  background: white;
   z-index: 20;
   overflow: auto;
 }
-/* #popup1 {
-  -webkit-box-shadow:  0px 0px 0px 9999px rgba(209, 198, 198, 0.5);
-  box-shadow:  0px 0px 0px 9999px rgba(223, 215, 215, 0.5);
-} */
-
+.modal-header .close-button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 
 </style>
