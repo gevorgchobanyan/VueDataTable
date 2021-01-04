@@ -175,7 +175,7 @@ export default {
 
 data: () => ({ 
     controls: [],
-    employeeInfo: [
+    inputValidation: [
       {
         name: 'fullname',
         value: '',
@@ -232,7 +232,7 @@ data: () => ({
     }
 }),
 beforeMount(){ //HOOK
-    for(let i=0; i<this.employeeInfo.length;i++){
+    for(let i=0; i<this.inputValidation.length;i++){
       this.controls.push({
         error: true,
         activated: false
@@ -276,7 +276,7 @@ beforeMount(){ //HOOK
       this.changeOverlay()
     },
     onInput(index, value){
-      let data = this.employeeInfo[index]
+      let data = this.inputValidation[index]
       let control = this.controls[index]
       data.value = value
       control.error = !data.pattern.test(value)
@@ -302,7 +302,7 @@ beforeMount(){ //HOOK
   height: 300px;
   top: 50%;
   margin-top: -180px;
-  background: white;
+  background: #dfe6e0;
   z-index: 20;
   overflow: auto;
 }

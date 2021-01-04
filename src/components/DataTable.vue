@@ -8,7 +8,27 @@
           <th v-for="header in allHeaders">{{ header['text'] }}</th>
         </tr>
 
-        <modal v-if="showModal"></modal>
+        <cell-edit-modal v-if="showModal">
+          
+          <template v-slot:header>
+            <h2>Salary</h2>
+          </template>
+          <template v-slot:body>
+            <input class="form-control mr-sm-2" 
+                   type="number" 
+                   id="salary" 
+                   name="salary" 
+                   :placeholder="getEmployeeById(employeeID).salary" 
+                   @keyup="newSalary($event.target.value)"
+            ><br>
+          </template>
+          <template v-slot:footer>
+            <button type="button" class="btn btn-success" @click="updateSalary(salary)">Save</button>&nbsp;
+            <button type="button" class="btn btn-success" @click="close()">Cancel</button>
+          </template>
+
+        </cell-edit-modal>
+
         <template v-for="employee in allEmployees" >
 
           <template v-if="showFired">
@@ -63,17 +83,19 @@
 
 <script>
 import { mapGetters, mapMutations } from 'vuex'
-import Modal from '@/components/Modal.vue'
+import CellEditModal from '@/components/CellEditModal.vue'
 
 
 export default {
   components: {
-    'modal': Modal,
+    'cell-edit-modal': CellEditModal,
   },
 data: () => ({ // распаковываем Setters
+  salary: 0,
 }),
  computed: { // распаковываем Getters
     ...mapGetters([
+      
       'allHeaders',
       'employeeID',
       'showFired',
@@ -85,11 +107,14 @@ data: () => ({ // распаковываем Setters
       'allEmployees',
       'selectedEmployeeIDs',
       'rowState',
-      'selectedEmployeeCount'
+      'selectedEmployeeCount',
+      'getEmployeeById',
+
     ])
   },
   methods: { // распаковываем Mutations, Actions
     ...mapMutations([
+      'updateEmployeeSalary',
       'changeShowModal',
       'incrementSelectedEmployeeCount',
       'decrementSelectedEmployeeCount',
@@ -126,6 +151,18 @@ data: () => ({ // распаковываем Setters
     openModal(employeeID){
       this.changeShowModal(employeeID)
       this.changeOverlay()
+    },
+    updateSalary(newSalary){
+      this.updateEmployeeSalary(newSalary)
+      this.changeOverlay()
+
+    },
+    close(){
+      this.changeShowModal(undefined)
+      this.changeOverlay()
+    },
+    newSalary(value){
+      this.salary = value
     }
   }
 
@@ -135,21 +172,6 @@ data: () => ({ // распаковываем Setters
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.popup {
-  display: block;
-  position: fixed;
-  padding: 10px;
-  width: 280px;
-  left: 50%;
-  margin-left: -150px;
-  height: 180px;
-  top: 50%;
-  margin-top: -100px;
-  background: rgb(45, 102, 67);
-  z-index: 20;
-}
-
-
 .disable {
   background-color: rgb(211, 70, 70);
   pointer-events: none;

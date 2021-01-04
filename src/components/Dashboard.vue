@@ -1,6 +1,34 @@
 <template>
     <nav class="navbar navbar-light bg-light">
-        <h3>Employee List</h3> 
+        <h3>Employee List</h3>
+
+        <!-- <form-modal :inputObjValidation="inputValidation"
+                    :inputObj="newEmployee"
+        >
+
+          <template v-slot:header>
+            <h2>Add a new employee</h2>
+          </template>
+
+          <template v-slot:progressBar>
+            <div class="progress" style="width: 100%;">
+              <div class="progress-bar" 
+                  role="progressbar" 
+                  :style="progressWidth" 
+                  aria-valuenow="25" 
+                  aria-valuemin="0" 
+                  aria-valuemax="100"
+                  >
+                  {{ done/controls.length*100 }} %
+              </div>
+            </div>
+          </template>
+
+
+
+
+
+        </form-modal> -->
         <employee-form-modal v-if="showModal2"></employee-form-modal>
         <!-- <h3>Employee list {{selectedEmployeeCount}} {{orderState}}</h3>  -->
         <!-- <button type="button" @click="sendOrder">sendOrder</button> -->
@@ -27,15 +55,74 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import EmployeeFormModal from '@/components/EmployeeFormModal.vue'
+import FormModal from '@/components/FormModal.vue'
 
 
 
 export default {
   components: {
-    'employee-form-modal': EmployeeFormModal
+    'employee-form-modal': EmployeeFormModal,
+    'form-modal': FormModal
   },
 
 data: () => ({
+  controls: [],
+  inputValidation: [
+    {
+      name: 'fullname',
+      value: '',
+      pattern: /^[a-zA-Z]+$/ 
+    },
+    {
+      name: 'company',
+      value: '',
+      pattern: /^[a-zA-Z]+$/ 
+    },
+    {
+      name: 'position',
+      value: '',
+      pattern: /^[a-zA-Z]+$/ 
+    },
+    {
+      name: 'admissionDate',
+      value: '',
+      pattern: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+    },
+    {
+      name: 'rate',
+      value: '',
+      pattern: /^\d{4}$/
+    },
+    {
+      name: 'rateInPercentage',
+      value: '',
+      pattern: /^\d{3}$/
+    },
+    {
+      name: 'base',
+      value: '',
+      pattern: /^\d{4}$/
+    },
+    {
+      name: 'advance',
+      value: '',
+      pattern: /^\d{4}$/
+    },
+  ],
+  newEmployee: {
+    id: 0,
+    name: '',
+    companyName: '',
+    positionName: '',
+    hireDate: '',
+    fireDate: null,
+    salary: 0,
+    fraction: 0,
+    base: 0,
+    advance: 0,
+    byHours: false
+  }
+
 }),
  computed: {
     ...mapGetters([
