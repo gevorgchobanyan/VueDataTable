@@ -5,30 +5,29 @@
         <!-- <form-modal :inputObjValidation="inputValidation"
                     :inputObj="newEmployee"
         >
-
           <template v-slot:header>
             <h2>Add a new employee</h2>
           </template>
-
           <template v-slot:progressBar>
-            <div class="progress" style="width: 100%;">
-              <div class="progress-bar" 
-                  role="progressbar" 
-                  :style="progressWidth" 
-                  aria-valuenow="25" 
-                  aria-valuemin="0" 
-                  aria-valuemax="100"
-                  >
-                  {{ done/controls.length*100 }} %
-              </div>
-            </div>
           </template>
-
-
-
-
-
+          <template v-slot:formElements="slotProps">
+            <label :for="slotProps.index">{{slotProps.elem.name}}{{slotProps.index}}</label>
+            <span class="fa" 
+                  v-if="controls[slotProps.index].activated"
+                  :class="controls[slotProps.index].error ? 'fa-exclamation-circle text-danger' : 
+                                                  'fa-check-circle text-success'"
+                  >
+            </span>
+            <input type="text"
+                   class="form-control" 
+                   :id="slotProps.index" 
+                   :placeholder="slotProps.elem.name"
+                   @input="onInput(slotProps.index, $event.target.value)"
+                   >
+          </template>
         </form-modal> -->
+
+
         <employee-form-modal v-if="showModal2"></employee-form-modal>
         <!-- <h3>Employee list {{selectedEmployeeCount}} {{orderState}}</h3>  -->
         <!-- <button type="button" @click="sendOrder">sendOrder</button> -->
@@ -55,73 +54,73 @@
 <script>
 import { mapGetters, mapMutations, mapActions } from 'vuex'
 import EmployeeFormModal from '@/components/EmployeeFormModal.vue'
-import FormModal from '@/components/FormModal.vue'
+// import FormModal from '@/components/FormModal.vue'
 
 
 
 export default {
   components: {
     'employee-form-modal': EmployeeFormModal,
-    'form-modal': FormModal
+    // 'form-modal': FormModal
   },
 
 data: () => ({
-  controls: [],
-  inputValidation: [
-    {
-      name: 'fullname',
-      value: '',
-      pattern: /^[a-zA-Z]+$/ 
-    },
-    {
-      name: 'company',
-      value: '',
-      pattern: /^[a-zA-Z]+$/ 
-    },
-    {
-      name: 'position',
-      value: '',
-      pattern: /^[a-zA-Z]+$/ 
-    },
-    {
-      name: 'admissionDate',
-      value: '',
-      pattern: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
-    },
-    {
-      name: 'rate',
-      value: '',
-      pattern: /^\d{4}$/
-    },
-    {
-      name: 'rateInPercentage',
-      value: '',
-      pattern: /^\d{3}$/
-    },
-    {
-      name: 'base',
-      value: '',
-      pattern: /^\d{4}$/
-    },
-    {
-      name: 'advance',
-      value: '',
-      pattern: /^\d{4}$/
-    },
-  ],
-  newEmployee: {
-    id: 0,
-    name: '',
-    companyName: '',
-    positionName: '',
-    hireDate: '',
-    fireDate: null,
-    salary: 0,
-    fraction: 0,
-    base: 0,
-    advance: 0,
-    byHours: false
-  }
+  // controls: [],
+  // inputValidation: [
+  //   {
+  //     name: 'fullname',
+  //     value: '',
+  //     pattern: /^[a-zA-Z]+$/ 
+  //   },
+  //   {
+  //     name: 'company',
+  //     value: '',
+  //     pattern: /^[a-zA-Z]+$/ 
+  //   },
+  //   {
+  //     name: 'position',
+  //     value: '',
+  //     pattern: /^[a-zA-Z]+$/ 
+  //   },
+  //   {
+  //     name: 'admissionDate',
+  //     value: '',
+  //     pattern: /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+  //   },
+  //   {
+  //     name: 'rate',
+  //     value: '',
+  //     pattern: /^\d{4}$/
+  //   },
+  //   {
+  //     name: 'rateInPercentage',
+  //     value: '',
+  //     pattern: /^\d{3}$/
+  //   },
+  //   {
+  //     name: 'base',
+  //     value: '',
+  //     pattern: /^\d{4}$/
+  //   },
+  //   {
+  //     name: 'advance',
+  //     value: '',
+  //     pattern: /^\d{4}$/
+  //   },
+  // ],
+  // newEmployee: {
+  //   id: 0,
+  //   name: '',
+  //   companyName: '',
+  //   positionName: '',
+  //   hireDate: '',
+  //   fireDate: null,
+  //   salary: 0,
+  //   fraction: 0,
+  //   base: 0,
+  //   advance: 0,
+  //   byHours: false
+  // }
 
 }),
  computed: {
@@ -150,6 +149,14 @@ data: () => ({
         }
     }
   },
+  // beforeMount(){ //HOOK
+  //   for(let i=0; i<this.inputValidation.length;i++){
+  //     this.controls.push({
+  //       error: true,
+  //       activated: false
+  //     })
+  //   }
+  // },
   methods: {
       ...mapMutations([
           'changeShowFired',
@@ -178,7 +185,14 @@ data: () => ({
         openModal2(){
           this.changeShowModal2()
           this.changeOverlay()
-        }
+        },
+        // onInput(index, value){
+        //   let data = this.inputValidation[index]
+        //   let control = this.controls[index]
+        //   data.value = value
+        //   control.error = !data.pattern.test(value)
+        //   control.activated = true
+        // }
   }
 
 }

@@ -6,8 +6,36 @@
       <slot name="header"></slot>
     </div>
     <div class="body">
-      <slot name="progressBar"></slot>
-      <slot name="body"></slot>
+      <!-- <slot name="progressBar"></slot> -->
+
+
+      <form>
+        <div>
+          <slot name="formElements"
+                v-for="(elem, index) in inputObjValidation"
+                :elem="elem"
+                :index="index"
+          >
+            
+          </slot>
+        </div>
+      </form>
+
+
+      <!-- <div class="progress" style="width: 100%;">
+        <div class="progress-bar" 
+            role="progressbar" 
+            :style="progressWidth" 
+            aria-valuenow="25" 
+            aria-valuemin="0" 
+            aria-valuemax="100"
+            >
+            {{ done/controls.length*100 }} %
+        </div>
+      </div> -->
+
+
+
     </div>
     <div class="footer">
       <slot name="footer"></slot>
@@ -34,56 +62,56 @@ export default {
     },
 
   },
-  beforeMount(){ //HOOK
-    for(let i=0; i<this.inputObjValidation.length;i++){
-      this.controls.push({
-        error: true,
-        activated: false
-      })
-    }
-  },
- computed: { 
-    ...mapGetters([
-      'showModal2',
-    ]),
-    done(){
-      let done = 0
-      for(let i=0; i<this.controls.length;i++){
-        if(!this.controls[i].error){
-          done++
-        }
-      }
-      return done
-    },
-    progressWidth(){
-      return {
-        width: (this.done / this.controls.length * 100) + '%'
-      }
-    }
-  },
-  methods: {
-    ...mapMutations([
-      'changeShowModal2',
-      'addNewEmployee',
-      'changeOverlay',
-    ]),
-    SaveResult(){
-      this.addNewEmployee(this.inputObj)
-      this.changeShowModal2()
-      this.changeOverlay()
-    },
-    closeModal2(){
-      this.changeShowModal2()
-      this.changeOverlay()
-    },
-    onInput(index, value){
-      let data = this.inputObjValidation[index]
-      let control = this.controls[index]
-      data.value = value
-      control.error = !data.pattern.test(value)
-      control.activated = true
-    },
-  }
+//   beforeMount(){ //HOOK
+//     for(let i=0; i<this.inputObjValidation.length;i++){
+//       this.controls.push({
+//         error: true,
+//         activated: false
+//       })
+//     }
+//   },
+//  computed: { 
+//     ...mapGetters([
+//       'showModal2',
+//     ]),
+//     done(){
+//       let done = 0
+//       for(let i=0; i<this.controls.length;i++){
+//         if(!this.controls[i].error){
+//           done++
+//         }
+//       }
+//       return done
+//     },
+//     progressWidth(){
+//       return {
+//         width: (this.done / this.controls.length * 100) + '%'
+//       }
+//     }
+//   },
+//   methods: {
+//     ...mapMutations([
+//       'changeShowModal2',
+//       'addNewEmployee',
+//       'changeOverlay',
+//     ]),
+//     SaveResult(){
+//       this.addNewEmployee(this.inputObj)
+//       this.changeShowModal2()
+//       this.changeOverlay()
+//     },
+//     closeModal2(){
+//       this.changeShowModal2()
+//       this.changeOverlay()
+//     },
+//     onInput(index, value){
+//       let data = this.inputObjValidation[index]
+//       let control = this.controls[index]
+//       data.value = value
+//       control.error = !data.pattern.test(value)
+//       control.activated = true
+//     },
+//   }
 }
 </script>
 
